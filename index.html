@@ -19,7 +19,7 @@ body {
 .wrap {
   max-width:1100px;
   margin:0 auto;
-  padding:30px 18px 60px;
+  padding:30px 18px 80px;
 }
 
 h2 {
@@ -47,6 +47,7 @@ h2 {
   padding:18px;
   box-shadow:0 10px 24px rgba(0,0,0,0.08);
   border:1px solid rgba(0,0,0,0.05);
+  scroll-margin-top:80px;
 }
 
 .day {
@@ -69,6 +70,32 @@ h2 {
   line-height:1.6;
   color:#4B5563;
 }
+
+/* NAV ARROWS */
+
+.nav {
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:12px;
+  z-index:999;
+}
+
+.nav button {
+  background:#ffffff;
+  border:none;
+  border-radius:999px;
+  padding:12px 18px;
+  font-weight:600;
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+  cursor:pointer;
+}
+
+.nav button:hover {
+  transform:translateY(-2px);
+}
 </style>
 </head>
 
@@ -79,82 +106,51 @@ h2 {
 <h2>Outbound Journey</h2>
 <p class="sub">Day-by-day across Route 66</p>
 
-<div class="grid">
+<div class="grid" id="days">
 
-<div class="card">
-<div class="day">Day 1</div>
-<div class="route">Goldsboro → Lewisburg</div>
-<div class="detail">The adventure begins. First stretch toward the mountains and your first overnight.</div>
-</div>
-
-<div class="card">
-<div class="day">Day 2</div>
-<div class="route">Lewisburg → Tipp City</div>
-<div class="detail">Rolling north through Appalachia toward the Midwest.</div>
-</div>
-
-<div class="card">
-<div class="day">Day 3</div>
-<div class="route">Tipp City → Chicago Area</div>
-<div class="detail">Positioning day. Tomorrow, Route 66 officially begins.</div>
-</div>
-
-<div class="card">
-<div class="day">Day 4</div>
-<div class="route">Chicago → Springfield</div>
-<div class="detail">Start of Route 66. Lou Mitchell’s, Gemini Giant, Cozy Dog.</div>
-</div>
-
-<div class="card">
-<div class="day">Day 5</div>
-<div class="route">Springfield → Rolla</div>
-<div class="detail">Chain of Rocks Bridge and classic roadside stops.</div>
-</div>
-
-<div class="card">
-<div class="day">Day 6</div>
-<div class="route">Rolla → Tulsa</div>
-<div class="detail">Blue Whale of Catoosa and Oklahoma fun.</div>
-</div>
-
-<div class="card">
-<div class="day">Day 7</div>
-<div class="route">Tulsa → Amarillo</div>
-<div class="detail">Wide open spaces. Cadillac Ranch and MidPoint Café.</div>
-</div>
-
-<div class="card">
-<div class="day">Day 8</div>
-<div class="route">Amarillo → Albuquerque</div>
-<div class="detail">Desert colors and New Mexico landscapes.</div>
-</div>
-
-<div class="card">
-<div class="day">Day 9</div>
-<div class="route">Albuquerque → Holbrook</div>
-<div class="detail">Standing on the Corner in Winslow and Wigwam Motel.</div>
-</div>
-
-<div class="card">
-<div class="day">Day 10</div>
-<div class="route">Holbrook → Williams</div>
-<div class="detail">Gateway to the Grand Canyon.</div>
-</div>
-
-<div class="card">
-<div class="day">Day 11</div>
-<div class="route">Williams → Needles</div>
-<div class="detail">Desert drive and Route 66 nostalgia.</div>
-</div>
-
-<div class="card">
-<div class="day">Day 12</div>
-<div class="route">Needles → Buena Park</div>
-<div class="detail">Santa Monica Pier. End of Route 66. You made it.</div>
-</div>
+<div class="card"><div class="day">Day 1</div><div class="route">Goldsboro → Lewisburg</div><div class="detail">The adventure begins.</div></div>
+<div class="card"><div class="day">Day 2</div><div class="route">Lewisburg → Tipp City</div></div>
+<div class="card"><div class="day">Day 3</div><div class="route">Tipp City → Chicago</div></div>
+<div class="card"><div class="day">Day 4</div><div class="route">Chicago → Springfield</div></div>
+<div class="card"><div class="day">Day 5</div><div class="route">Springfield → Rolla</div></div>
+<div class="card"><div class="day">Day 6</div><div class="route">Rolla → Tulsa</div></div>
+<div class="card"><div class="day">Day 7</div><div class="route">Tulsa → Amarillo</div></div>
+<div class="card"><div class="day">Day 8</div><div class="route">Amarillo → Albuquerque</div></div>
+<div class="card"><div class="day">Day 9</div><div class="route">Albuquerque → Holbrook</div></div>
+<div class="card"><div class="day">Day 10</div><div class="route">Holbrook → Williams</div></div>
+<div class="card"><div class="day">Day 11</div><div class="route">Williams → Needles</div></div>
+<div class="card"><div class="day">Day 12</div><div class="route">Needles → Buena Park</div></div>
 
 </div>
 </div>
+
+<div class="nav">
+  <button onclick="prevDay()">⬅ Previous</button>
+  <button onclick="nextDay()">Next ➡</button>
+</div>
+
+<script>
+let current = 0;
+const cards = document.querySelectorAll('.card');
+
+function scrollToDay(i){
+  if(i < 0 || i >= cards.length) return;
+  current = i;
+  cards[i].scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function nextDay(){
+  if(current < cards.length - 1){
+    scrollToDay(current + 1);
+  }
+}
+
+function prevDay(){
+  if(current > 0){
+    scrollToDay(current - 1);
+  }
+}
+</script>
 
 </body>
 </html>
