@@ -1,67 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Outbound Journey · The Grand Adventure</title>
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Outbound Days</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
-:root{--sky:#DDECF8;--rose:#F7DDE2;--lilac:#D7C9E8;--sun:#FFD166;--ink:#2F3A4A;--muted:#6B7280;--line:#D9E6F2;--blue:#92A1C3;--white:#fff;--shadow:0 12px 32px rgba(47,58,74,.10)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:"Open Sans",Arial,sans-serif;color:var(--ink);background:linear-gradient(180deg,var(--sky),#F5FAFD 50%,#fff);line-height:1.6}.wrap{max-width:1120px;margin:0 auto;padding:32px 18px 70px}.hero,.map-card,.day{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:30px;box-shadow:var(--shadow)}.hero{padding:46px 30px;text-align:center;background:linear-gradient(135deg,#fff 0%,#F7FBFF 55%,#FFD166 100%)}.eyebrow{margin:0 0 10px;color:var(--blue);font-weight:700;letter-spacing:1.8px;text-transform:uppercase;font-size:13px}h1,h2,h3{font-family:"Quicksand",sans-serif}h1{margin:0;font-size:clamp(38px,6vw,62px);line-height:1.05}.subtitle{max-width:760px;margin:18px auto 0;color:var(--muted);font-size:18px}.pills{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:24px}.pill,.tag{background:#fff;border:1px solid var(--line);border-radius:999px;font-weight:700}.pill{padding:9px 15px;font-size:14px}.map-card{margin-top:30px;padding:18px}.map-head h2{margin:0;font-size:30px}.map-head p{margin:4px 0 14px;color:var(--muted);font-size:14px}#map{height:520px;border-radius:24px;border:1px solid var(--line);overflow:hidden}.day-nav{position:sticky;top:0;z-index:900;margin:24px 0;background:rgba(255,255,255,.93);border:1px solid var(--line);border-radius:999px;padding:10px;overflow-x:auto;box-shadow:0 8px 24px rgba(47,58,74,.08)}.day-nav-inner{display:flex;gap:8px;min-width:max-content}.day-nav a{color:var(--ink);text-decoration:none;background:#F8FBFE;border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700}.day{margin:26px 0;padding:26px;scroll-margin-top:95px}.day-kicker{margin:0 0 8px;color:#B86F85;font-size:13px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase}.day h2{margin:0;font-size:clamp(26px,4vw,38px);line-height:1.12}.meta{margin:10px 0 0;color:var(--muted);font-weight:700}.summary{max-width:780px;margin:16px 0 0;color:#4B5563}.day-grid{display:grid;grid-template-columns:1.45fr .9fr;gap:18px;margin-top:22px}.timeline{position:relative;padding-left:28px}.timeline:before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:3px;border-radius:999px;background:linear-gradient(180deg,var(--sun),var(--blue),var(--rose))}.stop{position:relative;background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px}.stop:before{content:"";position:absolute;left:-27px;top:21px;width:18px;height:18px;border-radius:50%;background:var(--sun);border:3px solid #fff;box-shadow:0 3px 9px rgba(47,58,74,.18)}.stop.drive:before{background:var(--blue)}.stop.food:before{background:#E8B86D}.stop.hotel:before{background:var(--lilac)}.stop.special:before{background:var(--rose)}.stop-time{margin:0 0 4px;color:var(--muted);font-size:12px;font-weight:800;letter-spacing:.7px;text-transform:uppercase}.stop h3{margin:0;font-size:20px}.stop p{margin:8px 0 0;color:#4B5563;font-size:14px}.tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.tag{padding:4px 9px;font-size:12px;background:#F8FBFE}.side{background:linear-gradient(180deg,#fff,#F7FBFF);border:1px solid var(--line);border-radius:22px;padding:18px;margin-bottom:14px}.side h3{margin:0 0 10px;font-size:21px}.side ul{margin:0;padding-left:19px;color:#4B5563;font-size:14px}.side li{margin:7px 0}@media(max-width:820px){.day-grid{grid-template-columns:1fr}}@media(max-width:760px){.wrap{padding:20px 12px 50px}.hero{padding:36px 20px;border-radius:26px}#map{height:420px}.day{padding:20px;border-radius:24px}}
+body {
+  margin:0;
+  font-family:'Open Sans', sans-serif;
+  background:#ffffff;
+  color:#2F3A4A;
+}
+
+.wrap {
+  max-width:1100px;
+  margin:0 auto;
+  padding:30px 18px 60px;
+}
+
+h2 {
+  font-family:'Quicksand', sans-serif;
+  text-align:center;
+  font-size:34px;
+  margin-bottom:10px;
+}
+
+.sub {
+  text-align:center;
+  color:#6B7280;
+  margin-bottom:30px;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+  gap:18px;
+}
+
+.card {
+  background:#fff;
+  border-radius:20px;
+  padding:18px;
+  box-shadow:0 10px 24px rgba(0,0,0,0.08);
+  border:1px solid rgba(0,0,0,0.05);
+}
+
+.day {
+  font-weight:700;
+  font-size:13px;
+  letter-spacing:1px;
+  color:#7AA7C7;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+
+.route {
+  font-weight:700;
+  font-size:18px;
+  margin-bottom:10px;
+}
+
+.detail {
+  font-size:14px;
+  line-height:1.6;
+  color:#4B5563;
+}
 </style>
 </head>
+
 <body>
+
 <div class="wrap">
 
-<header class="hero">
-<p class="eyebrow">Outbound Journey · The Grand Adventure</p>
-<h1>Goldsboro to California</h1>
-<p class="subtitle">Goldsboro → Chicago → Route 66 → Santa Monica. The beginning of the adventure — where everything is new, unexpected, and just a little bit magical.</p>
-<div class="pills"><span class="pill">🚗 Adventure Begins</span><span class="pill">🛣️ Route 66</span><span class="pill">📸 Roadside Wonders</span><span class="pill">🌄 The Open Road</span></div>
-</header>
+<h2>Outbound Journey</h2>
+<p class="sub">Day-by-day across Route 66</p>
 
-<section class="map-card"><div class="map-head"><h2>Outbound Route Overview</h2><p>The westbound route from North Carolina to California.</p></div><div id="map"></div></section>
+<div class="grid">
 
-<nav class="day-nav"><div class="day-nav-inner">
-<a href="#day-1">Day 1</a><a href="#day-2">Day 2</a><a href="#day-3">Day 3</a><a href="#day-4">Day 4</a><a href="#day-5">Day 5</a><a href="#day-6">Day 6</a><a href="#day-7">Day 7</a><a href="#day-8">Day 8</a><a href="#day-9">Day 9</a><a href="#day-10">Day 10</a><a href="#day-11">Day 11</a><a href="#day-12">Day 12</a>
-</div></nav>
+<div class="card">
+<div class="day">Day 1</div>
+<div class="route">Goldsboro → Lewisburg</div>
+<div class="detail">The adventure begins. First stretch toward the mountains and your first overnight.</div>
+</div>
 
-<section class="day" id="day-1"><p class="day-kicker">Day 1</p><h2>Goldsboro → Lewisburg</h2><p class="meta">Adventure begins</p><p class="summary">The first leg sets the rhythm: easy, excited, and not overpacked.</p><div class="day-grid"><div class="timeline"><article class="stop drive"><p class="stop-time">Drive</p><h3>Leave Goldsboro</h3><p>The road trip officially begins.</p></article><article class="stop hotel"><p class="stop-time">Stay</p><h3>Lewisburg area</h3><p>Quiet overnight before continuing north and west.</p></article></div><aside><div class="side"><h3>What to know</h3><ul><li>Keep this day simple.</li><li>Let the kids settle into the road rhythm.</li><li>First-night excitement is part of the story.</li></ul></div></aside></div></section>
+<div class="card">
+<div class="day">Day 2</div>
+<div class="route">Lewisburg → Tipp City</div>
+<div class="detail">Rolling north through Appalachia toward the Midwest.</div>
+</div>
 
-<section class="day" id="day-2"><p class="day-kicker">Day 2</p><h2>Lewisburg → Tipp City</h2><p class="summary">A steady second travel day as the family settles into the pattern of hotel breakfast, road snacks, and new views.</p><div class="day-grid"><div class="timeline"><article class="stop drive"><p class="stop-time">Drive</p><h3>Westward rhythm</h3><p>This is a positioning day, not a sightseeing day.</p></article><article class="stop hotel"><p class="stop-time">Stay</p><h3>Tipp City area</h3><p>Sets up Chicago without a hard push.</p></article></div><aside><div class="side"><h3>What to know</h3><ul><li>Good day for audiobooks and quiet car games.</li><li>Keep dinner easy.</li></ul></div></aside></div></section>
+<div class="card">
+<div class="day">Day 3</div>
+<div class="route">Tipp City → Chicago Area</div>
+<div class="detail">Positioning day. Tomorrow, Route 66 officially begins.</div>
+</div>
 
-<section class="day" id="day-3"><p class="day-kicker">Day 3</p><h2>Tipp City → Chicago Area</h2><p class="summary">Arrive near the official start of Route 66 and get ready for the westward adventure.</p><div class="day-grid"><div class="timeline"><article class="stop special"><p class="stop-time">Arrival</p><h3>Chicago / Oak Lawn area</h3><p>Position for the Route 66 beginning without staying in the busiest downtown area.</p></article><article class="stop food"><p class="stop-time">Optional</p><h3>Lou Mitchell’s</h3><p>Classic Route 66 energy if timing and energy allow.</p></article></div><aside><div class="side"><h3>What to know</h3><ul><li>This is the emotional start of Route 66.</li><li>Don’t overdo Chicago before the route begins.</li></ul></div></aside></div></section>
+<div class="card">
+<div class="day">Day 4</div>
+<div class="route">Chicago → Springfield</div>
+<div class="detail">Start of Route 66. Lou Mitchell’s, Gemini Giant, Cozy Dog.</div>
+</div>
 
-<section class="day" id="day-4"><p class="day-kicker">Day 4</p><h2>Chicago → Springfield</h2><p class="summary">The first official Route 66 day: signs, diners, roadside icons, and the sense that the real adventure has begun.</p><div class="day-grid"><div class="timeline"><article class="stop special"><h3>Route 66 Begin sign</h3><p>Photo moment to mark the start.</p></article><article class="stop special"><h3>Gemini Giant</h3><p>Classic oversized roadside fun.</p></article><article class="stop food"><h3>Cozy Dog Drive-In</h3><p>Route 66 classic with simple kid-friendly food.</p></article><article class="stop hotel"><h3>Springfield overnight</h3><p>Good first Route 66 stop.</p></article></div><aside><div class="side"><h3>Memory note</h3><ul><li>This is the day the trip starts feeling like Route 66.</li></ul></div></aside></div></section>
+<div class="card">
+<div class="day">Day 5</div>
+<div class="route">Springfield → Rolla</div>
+<div class="detail">Chain of Rocks Bridge and classic roadside stops.</div>
+</div>
 
-<section class="day" id="day-5"><p class="day-kicker">Day 5</p><h2>Springfield → Rolla</h2><p class="summary">Roadside Americana continues, with river crossings, frozen custard, and Missouri landscapes.</p><div class="day-grid"><div class="timeline"><article class="stop special"><h3>Chain of Rocks Bridge</h3><p>Historic Route 66 bridge moment.</p></article><article class="stop food"><h3>Ted Drewes Frozen Custard</h3><p>A sweet stop and easy family memory.</p></article><article class="stop hotel"><h3>Rolla overnight</h3><p>Practical stop before Oklahoma.</p></article></div><aside><div class="side"><h3>What to know</h3><ul><li>Keep stops flexible.</li><li>Frozen custard counts as a road-trip requirement.</li></ul></div></aside></div></section>
+<div class="card">
+<div class="day">Day 6</div>
+<div class="route">Rolla → Tulsa</div>
+<div class="detail">Blue Whale of Catoosa and Oklahoma fun.</div>
+</div>
 
-<section class="day" id="day-6"><p class="day-kicker">Day 6</p><h2>Rolla → Tulsa</h2><p class="summary">A playful day with one of the most kid-friendly Route 66 icons.</p><div class="day-grid"><div class="timeline"><article class="stop special"><h3>Blue Whale of Catoosa</h3><p>Quirky, cheerful, and perfect for photos.</p></article><article class="stop hotel"><h3>Tulsa overnight</h3><p>Easy city stop with plenty of food options.</p></article></div><aside><div class="side"><h3>Memory note</h3><ul><li>This is one of the big “kid joy” stops.</li></ul></div></aside></div></section>
+<div class="card">
+<div class="day">Day 7</div>
+<div class="route">Tulsa → Amarillo</div>
+<div class="detail">Wide open spaces. Cadillac Ranch and MidPoint Café.</div>
+</div>
 
-<section class="day" id="day-7"><p class="day-kicker">Day 7</p><h2>Tulsa → Amarillo</h2><p class="summary">The route opens wider as you head toward Texas and one of the most famous roadside art stops in America.</p><div class="day-grid"><div class="timeline"><article class="stop special"><h3>Cadillac Ranch</h3><p>Bring spray paint if allowed and make it a quick, colorful photo stop.</p></article><article class="stop hotel"><h3>Amarillo overnight</h3><p>Good reset after a big-sky day.</p></article></div><aside><div class="side"><h3>What to know</h3><ul><li>Expect wind and sun.</li><li>Wear shoes that can handle dirt or mud.</li></ul></div></aside></div></section>
+<div class="card">
+<div class="day">Day 8</div>
+<div class="route">Amarillo → Albuquerque</div>
+<div class="detail">Desert colors and New Mexico landscapes.</div>
+</div>
 
-<section class="day" id="day-8"><p class="day-kicker">Day 8</p><h2>Amarillo → Albuquerque</h2><p class="summary">Wide-open skies, desert colors, and the feeling of moving into the Southwest.</p><div class="day-grid"><div class="timeline"><article class="stop food"><h3>MidPoint Cafe</h3><p>Classic halfway-point Route 66 stop if timing fits.</p></article><article class="stop hotel"><h3>Albuquerque overnight</h3><p>Southwest evening and easy hotel reset.</p></article></div><aside><div class="side"><h3>What to know</h3><ul><li>This is a big landscape-change day.</li><li>Hydration matters more now.</li></ul></div></aside></div></section>
+<div class="card">
+<div class="day">Day 9</div>
+<div class="route">Albuquerque → Holbrook</div>
+<div class="detail">Standing on the Corner in Winslow and Wigwam Motel.</div>
+</div>
 
-<section class="day" id="day-9"><p class="day-kicker">Day 9</p><h2>Albuquerque → Holbrook</h2><p class="summary">A special overnight in one of the most memorable Route 66 stays.</p><div class="day-grid"><div class="timeline"><article class="stop special"><h3>Standing on the Corner in Winslow</h3><p>A classic photo stop and quick stretch.</p></article><article class="stop hotel"><h3>Wigwam Motel</h3><p>Bucket-list overnight and one of the trip’s signature moments.</p></article></div><aside><div class="side"><h3>Memory note</h3><ul><li>This night deserves photos.</li><li>Let the kids feel the novelty of it.</li></ul></div></aside></div></section>
+<div class="card">
+<div class="day">Day 10</div>
+<div class="route">Holbrook → Williams</div>
+<div class="detail">Gateway to the Grand Canyon.</div>
+</div>
 
-<section class="day" id="day-10"><p class="day-kicker">Day 10</p><h2>Holbrook → Williams</h2><p class="summary">Grand Canyon setup day with Williams as the base.</p><div class="day-grid"><div class="timeline"><article class="stop special"><h3>Grand Canyon / Williams</h3><p>Keep the experience manageable and awe-filled rather than over-scheduled.</p></article><article class="stop hotel"><h3>Williams overnight</h3><p>Classic small-town gateway to the canyon.</p></article></div><aside><div class="side"><h3>What to know</h3><ul><li>Do less, see more.</li><li>Let the canyon be the moment.</li></ul></div></aside></div></section>
+<div class="card">
+<div class="day">Day 11</div>
+<div class="route">Williams → Needles</div>
+<div class="detail">Desert drive and Route 66 nostalgia.</div>
+</div>
 
-<section class="day" id="day-11"><p class="day-kicker">Day 11</p><h2>Williams → Needles</h2><p class="summary">A desert transition day as the route moves closer to California.</p><div class="day-grid"><div class="timeline"><article class="stop special"><h3>Roy’s Motel sign</h3><p>A classic desert Route 66 image if timing allows.</p></article><article class="stop hotel"><h3>Needles overnight</h3><p>Positioning stop before the final California push.</p></article></div><aside><div class="side"><h3>What to know</h3><ul><li>Heat will be serious.</li><li>Keep stops short and shaded where possible.</li></ul></div></aside></div></section>
-
-<section class="day" id="day-12"><p class="day-kicker">Day 12</p><h2>Needles → Buena Park</h2><p class="summary">The final push west, ending the outbound journey in California.</p><div class="day-grid"><div class="timeline"><article class="stop special"><h3>Santa Monica / End of Route 66</h3><p>If energy allows, mark the end with the sign and the ocean.</p></article><article class="stop special"><h3>Arrive Buena Park</h3><p>You made it across the country.</p></article></div><aside><div class="side"><h3>Memory note</h3><ul><li>This is the “we did it” day.</li><li>Take one last arrival photo.</li></ul></div></aside></div></section>
+<div class="card">
+<div class="day">Day 12</div>
+<div class="route">Needles → Buena Park</div>
+<div class="detail">Santa Monica Pier. End of Route 66. You made it.</div>
+</div>
 
 </div>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-const stops=[["Goldsboro, NC",35.3849,-77.9928,"Start"],["Lewisburg, WV",37.8018,-80.4456,"Day 1"],["Tipp City, OH",39.9584,-84.1722,"Day 2"],["Chicago, IL",41.8781,-87.6298,"Day 3"],["Springfield, IL",39.7817,-89.6501,"Day 4"],["Rolla, MO",37.9514,-91.7713,"Day 5"],["Tulsa, OK",36.154,-95.9928,"Day 6"],["Amarillo, TX",35.2219,-101.8313,"Day 7"],["Albuquerque, NM",35.0844,-106.6504,"Day 8"],["Holbrook, AZ",34.9022,-110.1582,"Day 9"],["Williams, AZ",35.2495,-112.191,"Day 10"],["Needles, CA",34.8481,-114.6141,"Day 11"],["Buena Park, CA",33.8675,-117.9981,"Finish"]];
-const map=L.map("map",{scrollWheelZoom:false});
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"&copy; OpenStreetMap contributors"}).addTo(map);
-const route=stops.map(s=>[s[1],s[2]]);
-const line=L.polyline(route,{color:"#92A1C3",weight:5,opacity:.9}).addTo(map);
-const icon=L.divIcon({className:"",html:'<div style="width:22px;height:22px;border-radius:50%;background:white;border:3px solid #92A1C3;box-shadow:0 3px 10px rgba(0,0,0,.2)"></div>',iconSize:[22,22],iconAnchor:[11,11]});
-stops.forEach((s)=>L.marker([s[1],s[2]],{icon}).addTo(map).bindPopup("<strong>"+s[0]+"</strong><br>"+s[3]));
-map.fitBounds(line.getBounds(),{padding:[30,30]});
-</script>
+</div>
+
 </body>
 </html>
