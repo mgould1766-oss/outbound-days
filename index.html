@@ -1,155 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Outbound Journey Days</title>
 
-<title>Outbound Days</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
 <style>
-body {
-  margin:0;
-  font-family:'Open Sans', sans-serif;
-  background:#ffffff;
-  color:#2F3A4A;
-}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Open Sans',sans-serif;color:#2F3A4A;background:linear-gradient(180deg,#EAF4FB 0%,#fff 100%)}
+.wrap{max-width:1100px;margin:0 auto;padding:34px 18px 70px}
+.hero{background:linear-gradient(135deg,#fff 0%,#F5FAFD 55%,#FFD166 100%);border-radius:28px;padding:42px 26px;text-align:center;box-shadow:0 12px 30px rgba(47,58,74,.08)}
+.kicker{font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:800;color:#92A1C3}
+h1{font-family:'Quicksand',sans-serif;font-size:46px;margin:12px 0;color:#2F3A4A}
+.sub{max-width:720px;margin:0 auto 22px;line-height:1.6;color:#637083}
+.pills{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.pill{background:#fff;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:700;box-shadow:0 5px 14px rgba(47,58,74,.08)}
 
-.wrap {
-  max-width:1100px;
-  margin:0 auto;
-  padding:30px 18px 80px;
-}
+.section{background:#fff;border-radius:24px;margin-top:28px;padding:22px;box-shadow:0 10px 26px rgba(47,58,74,.08)}
+h2{font-family:'Quicksand',sans-serif;font-size:30px;margin:0 0 8px}
+#map{height:430px;border-radius:18px;overflow:hidden;margin-top:16px}
 
-h2 {
-  font-family:'Quicksand', sans-serif;
-  text-align:center;
-  font-size:34px;
-  margin-bottom:10px;
-}
+.day-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;justify-content:center;background:#fff;border-radius:999px;padding:12px;box-shadow:0 8px 20px rgba(47,58,74,.06)}
+.day-buttons button,.nav button{border:0;background:#F5FAFD;border-radius:999px;padding:10px 15px;font-weight:800;color:#2F3A4A;cursor:pointer}
+.day-buttons button.active{background:#D7C9E8}
 
-.sub {
-  text-align:center;
-  color:#6B7280;
-  margin-bottom:30px;
-}
+.day-card{display:none;background:#fff;border-radius:24px;margin-top:24px;padding:28px;box-shadow:0 10px 26px rgba(47,58,74,.08)}
+.day-card.active{display:block}
+.day-label{color:#E7B7C8;font-weight:800;text-transform:uppercase;letter-spacing:2px;font-size:13px}
+.route{font-family:'Quicksand',sans-serif;font-size:34px;font-weight:700;margin:8px 0}
+.theme{font-weight:800;margin-bottom:16px}
+.detail{line-height:1.65;color:#526070}
 
-.grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
-  gap:18px;
-}
+.boxes{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+.box{border:1px solid #E7EDF5;border-radius:18px;padding:18px;background:#FCFDFF}
+.box h3{margin:0 0 8px;font-size:16px}
 
-.card {
-  background:#fff;
-  border-radius:20px;
-  padding:18px;
-  box-shadow:0 10px 24px rgba(0,0,0,0.08);
-  border:1px solid rgba(0,0,0,0.05);
-  scroll-margin-top:80px;
-}
+.nav{display:flex;justify-content:center;gap:12px;margin-top:24px}
+.nav button{background:#fff;box-shadow:0 8px 18px rgba(47,58,74,.12)}
 
-.day {
-  font-weight:700;
-  font-size:13px;
-  letter-spacing:1px;
-  color:#7AA7C7;
-  text-transform:uppercase;
-  margin-bottom:6px;
-}
-
-.route {
-  font-weight:700;
-  font-size:18px;
-  margin-bottom:10px;
-}
-
-.detail {
-  font-size:14px;
-  line-height:1.6;
-  color:#4B5563;
-}
-
-/* NAV ARROWS */
-
-.nav {
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  display:flex;
-  gap:12px;
-  z-index:999;
-}
-
-.nav button {
-  background:#ffffff;
-  border:none;
-  border-radius:999px;
-  padding:12px 18px;
-  font-weight:600;
-  box-shadow:0 8px 20px rgba(0,0,0,0.15);
-  cursor:pointer;
-}
-
-.nav button:hover {
-  transform:translateY(-2px);
+@media(max-width:700px){
+ h1{font-size:36px}
+ .route{font-size:28px}
+ #map{height:340px}
+ .boxes{grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
+<div class="wrap" id="top">
 
-<div class="wrap">
+<section class="hero">
+  <div class="kicker">Outbound Journey · The Grand Adventure</div>
+  <h1>Goldsboro to California</h1>
+  <p class="sub">Goldsboro → Chicago → Route 66 → Santa Monica. The beginning of the adventure — where everything is new, unexpected, and just a little bit magical.</p>
+  <div class="pills">
+    <span class="pill">🚗 Adventure Begins</span>
+    <span class="pill">🛣️ Route 66</span>
+    <span class="pill">📸 Roadside Wonders</span>
+    <span class="pill">🌅 The Open Road</span>
+  </div>
+</section>
 
-<h2>Outbound Journey</h2>
-<p class="sub">Day-by-day across Route 66</p>
+<section class="section">
+  <h2>Outbound Route Overview</h2>
+  <p class="sub" style="text-align:left;margin:0;">The westbound route from North Carolina to California.</p>
+  <div id="map"></div>
+</section>
 
-<div class="grid" id="days">
+<div class="day-buttons" id="dayButtons"></div>
 
-<div class="card"><div class="day">Day 1</div><div class="route">Goldsboro → Lewisburg</div><div class="detail">The adventure begins.</div></div>
-<div class="card"><div class="day">Day 2</div><div class="route">Lewisburg → Tipp City</div></div>
-<div class="card"><div class="day">Day 3</div><div class="route">Tipp City → Chicago</div></div>
-<div class="card"><div class="day">Day 4</div><div class="route">Chicago → Springfield</div></div>
-<div class="card"><div class="day">Day 5</div><div class="route">Springfield → Rolla</div></div>
-<div class="card"><div class="day">Day 6</div><div class="route">Rolla → Tulsa</div></div>
-<div class="card"><div class="day">Day 7</div><div class="route">Tulsa → Amarillo</div></div>
-<div class="card"><div class="day">Day 8</div><div class="route">Amarillo → Albuquerque</div></div>
-<div class="card"><div class="day">Day 9</div><div class="route">Albuquerque → Holbrook</div></div>
-<div class="card"><div class="day">Day 10</div><div class="route">Holbrook → Williams</div></div>
-<div class="card"><div class="day">Day 11</div><div class="route">Williams → Needles</div></div>
-<div class="card"><div class="day">Day 12</div><div class="route">Needles → Buena Park</div></div>
-
-</div>
-</div>
+<section id="dayContainer"></section>
 
 <div class="nav">
-  <button onclick="prevDay()">⬅ Previous</button>
-  <button onclick="nextDay()">Next ➡</button>
+  <button onclick="prevDay()">← Previous Day</button>
+  <button onclick="goTop()">↑ Top</button>
+  <button onclick="nextDay()">Next Day →</button>
 </div>
 
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <script>
+const stops = [
+  ["Goldsboro, NC",35.3849,-77.9928],
+  ["Lewisburg, WV",37.8018,-80.4456],
+  ["Tipp City, OH",39.9584,-84.1722],
+  ["Chicago Area, IL",41.7199,-87.7479],
+  ["Springfield, IL",39.7817,-89.6501],
+  ["Rolla, MO",37.9514,-91.7713],
+  ["Tulsa, OK",36.154,-95.9928],
+  ["Amarillo, TX",35.222,-101.8313],
+  ["Albuquerque, NM",35.0844,-106.6504],
+  ["Holbrook, AZ",34.9022,-110.1582],
+  ["Williams, AZ",35.2495,-112.191],
+  ["Needles, CA",34.8481,-114.6141],
+  ["Buena Park, CA",33.8675,-117.9981]
+];
+
+const days = [
+  ["Day 1","Goldsboro → Lewisburg","Adventure begins","First leg sets the rhythm: easy, excited, and not overpacked.","Leave Goldsboro","Lewisburg area","Keep this day simple. Let the kids settle into the road rhythm."],
+  ["Day 2","Lewisburg → Tipp City","Rolling toward the Midwest","A steady travel day through mountains and small towns.","Leave Lewisburg","Tipp City area","Good day for car games, snacks, and early hotel arrival."],
+  ["Day 3","Tipp City → Chicago Area","Almost to Route 66","Positioning day before the official Route 66 start.","Leave Tipp City","Oak Lawn / Chicago area","Tomorrow the Mother Road begins."],
+  ["Day 4","Chicago → Springfield","Route 66 begins","Start near Chicago, then follow Illinois Route 66 energy south.","Lou Mitchell’s / Gemini Giant / Cozy Dog","Springfield, IL","This is a big memory day."],
+  ["Day 5","Springfield → Rolla","Bridges and frozen custard","Classic Missouri approach with roadside stops.","Chain of Rocks Bridge / Ted Drewes","Rolla, MO","Keep walking flexible."],
+  ["Day 6","Rolla → Tulsa","Oklahoma fun","The road gets playful with one of Route 66’s most famous kid-friendly stops.","Blue Whale of Catoosa","Tulsa, OK","Great photo day."],
+  ["Day 7","Tulsa → Amarillo","Wide open spaces","Plains, color, and iconic roadside art.","Cadillac Ranch / MidPoint Café","Amarillo, TX","Bring markers or spray paint if allowed/desired."],
+  ["Day 8","Amarillo → Albuquerque","New Mexico color","The landscape begins to feel different: bigger skies, desert light, and Route 66 history.","Route 66 roadside stops","Albuquerque, NM","A visually beautiful stretch."],
+  ["Day 9","Albuquerque → Holbrook","Arizona magic","A day with one of the trip’s most memorable overnight stays.","Standing on the Corner / Wigwam Motel","Holbrook, AZ","This is a special stop."],
+  ["Day 10","Holbrook → Williams","Grand Canyon gateway","A shorter positioning day toward Williams and the Grand Canyon experience.","Route 66 / Williams","Williams, AZ","Let this day breathe."],
+  ["Day 11","Williams → Needles","Desert stretch","A classic western Route 66 desert day.","Roy’s Motel sign / desert views","Needles, CA","Heat and hydration matter here."],
+  ["Day 12","Needles → Buena Park","California arrival","The final westbound stretch, with the end of Route 66 in sight.","Santa Monica Pier / End sign","Buena Park, CA","You made it."]
+];
+
 let current = 0;
-const cards = document.querySelectorAll('.card');
 
-function scrollToDay(i){
-  if(i < 0 || i >= cards.length) return;
-  current = i;
-  cards[i].scrollIntoView({behavior:'smooth', block:'center'});
+function buildDays(){
+  const buttons = document.getElementById("dayButtons");
+  const container = document.getElementById("dayContainer");
+
+  days.forEach((d,i)=>{
+    const b=document.createElement("button");
+    b.textContent=d[0];
+    b.onclick=()=>showDay(i);
+    buttons.appendChild(b);
+
+    const card=document.createElement("div");
+    card.className="day-card";
+    card.innerHTML=`
+      <div class="day-label">${d[0]}</div>
+      <div class="route">${d[1]}</div>
+      <div class="theme">${d[2]}</div>
+      <div class="detail">${d[3]}</div>
+      <div class="boxes">
+        <div class="box"><h3>Drive</h3><p><strong>${d[4]}</strong></p></div>
+        <div class="box"><h3>Stay / Anchor</h3><p><strong>${d[5]}</strong></p></div>
+        <div class="box"><h3>What to know</h3><p>${d[6]}</p></div>
+        <div class="box"><h3>Memory prompt</h3><p>What did we see today that we want to remember?</p></div>
+      </div>`;
+    container.appendChild(card);
+  });
+
+  showDay(0);
 }
 
-function nextDay(){
-  if(current < cards.length - 1){
-    scrollToDay(current + 1);
-  }
+function showDay(i){
+  current=i;
+  document.querySelectorAll(".day-card").forEach(c=>c.classList.remove("active"));
+  document.querySelectorAll(".day-buttons button").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll(".day-card")[i].classList.add("active");
+  document.querySelectorAll(".day-buttons button")[i].classList.add("active");
 }
 
-function prevDay(){
-  if(current > 0){
-    scrollToDay(current - 1);
-  }
-}
+function nextDay(){ if(current < days.length-1) showDay(current+1); }
+function prevDay(){ if(current > 0) showDay(current-1); }
+function goTop(){ document.getElementById("top").scrollIntoView({behavior:"smooth"}); }
+
+buildDays();
+
+const map = L.map('map',{scrollWheelZoom:false});
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+const line = stops.map(s=>[s[1],s[2]]);
+L.polyline(line,{color:'#92A1C3',weight:5,opacity:.85}).addTo(map);
+stops.forEach((s,i)=>{
+  L.circleMarker([s[1],s[2]],{radius:7,color:'#92A1C3',weight:2,fillColor:'#fff',fillOpacity:1})
+  .addTo(map).bindPopup(`<strong>${i+1}. ${s[0]}</strong>`);
+});
+map.fitBounds(line,{padding:[25,25]});
 </script>
 
 </body>
